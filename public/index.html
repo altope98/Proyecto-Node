@@ -3,6 +3,7 @@
   <head>
     <title>Socket.IO chat</title>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/siofu/client.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
 
@@ -10,11 +11,9 @@
       $(function () {
         var socket = io();
         var nombre = prompt("Introduce nickname");
-        /* var SocketIOFileUpload = require('socketio-file-upload'); */
-        /* var socket = io.connect(); */
-       /*  var uploader = new SocketIOFileUpload(socket);
-        uploader.listenOnInput(document.getElementById("siofu_input")); */
-        /* var SocketIOFileUpload = require('socketio-file-upload'); */
+        var uploader = new SocketIOFileUpload(socket);
+        uploader.listenOnInput(document.getElementById("siofu_input")); 
+
         socket.emit('new-usuario', nombre)
         $('form').submit(function(e){
           e.preventDefault(); // prevents page reloading
@@ -39,10 +38,10 @@
         //escuchas
         socket.on('mensaje', function(data){
           if(data.nombre==nombre){
-            $('#messages').append($('<li style="text-align:right; background-color:lightgreen;">').text(data.nombre+':  '+data.mensaje));
+            $('#messages').append($('<li style="text-align:right; background-color:lightgreen;">').html('<h3 style="display:inline;">'+data.nombre+'</h3>:  '+data.mensaje));
 
           }else{
-            $('#messages').append($('<li style="text-align:left; background-color:white;">').text(data.nombre+':  '+data.mensaje));
+            $('#messages').append($('<li style="text-align:left; background-color:white;">').html('<h3 style="display:inline;">'+data.nombre+'</h3>:  '+data.mensaje));
 
           }
 
@@ -56,6 +55,13 @@
         })
         socket.on('contador', function(cont) {
           $('.conectados').text("Usuarios Conectados: "+cont);  
+        })
+        socket.on('archivo', function(data) {
+          if(data.nombre==nombre){
+          $('#messages').append($('<li style="text-align:right; background-color:lightgreen;">').html('<h3 style="display:inline;">'+data.nombre+'</h3>: <a href="./assets/'+data.name+'" >'+data.name+'</a>'));
+          }else{
+            $('#messages').append($('<li style="text-align:left; background-color:white;">').html('<h3 style="display:inline;">'+data.nombre+'</h3>: <a href="./assets/'+data.name+'" >'+data.name+'</a>'));
+          }
         })
         socket.on('escribiendo', function(nombre){
           if(nombre){
@@ -110,13 +116,15 @@
   </head>
   <body>
     <p class="viewescribiendo" style="color:black"></p>
+    
       <ul id="messages" >
         
       </ul>
       <form action="">
-        <input id="m" autocomplete="off" /><button>Send</button><p class="conectados" style="color:white">Usuarios Conectados: 0</p>
+        <input id="m" autocomplete="off" /> 
+        <input type="file" id="siofu_input" />
+        <button>Send</button>
+        <p class="conectados" style="color:white">Usuarios Conectados: 0</p>
       </form>
-
-      <!-- <input type="file" id="siofu_input" /> -->
   </body>
 </html>
