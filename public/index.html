@@ -48,10 +48,10 @@
          
         });
         socket.on('usuario-conectado', function(nombre) {
-          $('#messages').append($('<li>').text(nombre+' se ha conectado'));
+          $('#messages').append($('<li>').html('<h4>'+nombre+' se ha conectado</h3>'));
         })
-        socket.on('usuario-desconectado', function(nombre) {
-          $('#messages').append($('<li>').text(nombre+' se ha desconectado'));
+        socket.on('usuario-desconectado', function() {
+          $('#messages').append($('<li>').html('<h4>'+nombre+' se ha desconectado</h3>'));
         })
         socket.on('contador', function(cont) {
           $('.conectados').text("Usuarios Conectados: "+cont);  
@@ -65,9 +65,9 @@
         })
         socket.on('escribiendo', function(nombre){
           if(nombre){
-            $('.viewescribiendo').text(nombre+' esta escribiendo');
+            $('.viewescribiendo').html('<h3 style="text-align:center">'+nombre+'esta escribiendo</h3>');
           }else{
-            $('.viewescribiendo').text('');
+            $('.viewescribiendo').html('');
           }
           
         })
