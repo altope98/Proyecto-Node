@@ -1,3 +1,4 @@
+const PORT = process.env.PORT || 3000
 var express = require('express');
 var app= express();
 var http = require('http').createServer(app);
@@ -49,7 +50,7 @@ io.on('connection', socket => {
 
 app.use(siofu.router).use(express.static(__dirname+ '/public')); 
 
-const PORT = process.env.PORT || 3000
+
 http.listen(PORT, function(){
   console.log('listening on *:3000');
 });
