@@ -2,6 +2,8 @@
 
 # Realtime chat using NodeJS and SocketIO
 
+![alt text](./Annotation.jpg)
+
 # PRODUCTION: https://chat-nodejs-altope.herokuapp.com/
 
 ## Project setup
